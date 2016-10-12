@@ -2,9 +2,9 @@
 #define __LOG_H__
 
 #include <stdio.h>
-#include <ctype.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <ctype.h>
 #include <syslog.h>
 
 enum log_level
@@ -25,6 +25,8 @@ do{                                                                             
     level > _log_level ? 0 : syslog(priority, #priority" [%s:%u] "format, __FILE__, __LINE__, ##__VA_ARGS__);   \
 }while(0)
 
+void print_hex_dump(enum log_level level, const void *buf, size_t len);
+
 #define log_crit(format, ...)       _log_message(LOG_LEVEL_CRIT, LOG_CRIT, format, ##__VA_ARGS__)
 #define log_err(format, ...)        _log_message(LOG_LEVEL_ERR, LOG_ERR, format, ##__VA_ARGS__)
 #define log_warning(format, ...)    _log_message(LOG_LEVEL_WARNING, LOG_WARNING, format, ##__VA_ARGS__)
@@ -34,6 +36,9 @@ do{                                                                             
 
 #define log_alarm(format, ...)      _log_message(LOG_LEVEL_WARNING, LOG_LOCAL0|LOG_WARNING, format, ##__VA_ARGS__)
 #define log_audit(format, ...)      _log_message(LOG_LEVEL_NOTICE, LOG_LOCAL1|LOG_NOTICE, format, ##__VA_ARGS__)
+
+#define log_dump(buf, len)          print_hex_dump(LOG_LEVEL_INFO, buf, len)
+#define log_print(buf, len)         print_hex_dump(LOG_LEVEL_NUM, buf, len)
 
 void log_open(const char *ident, bool tostderr);
 
