@@ -1,3 +1,8 @@
+/**
+ * @author lijk@.infosec.com.cn
+ * @version 0.0.1
+ * @date 2016-10-12 13:41:51
+ */
 #ifndef __LOG_H__
 #define __LOG_H__
 
@@ -41,6 +46,9 @@ void print_hex_dump(enum log_level level, const void *buf, size_t len);
 #define log_print(buf, len)         print_hex_dump(LOG_LEVEL_NUM, buf, len)
 
 void log_open(const char *ident, bool tostderr);
+
+// level: crit, err, warning, notice, info, debug
+enum log_level log_get_level(const char *level);
 
 void log_set_level(enum log_level level);
 
