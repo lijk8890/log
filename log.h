@@ -1,5 +1,5 @@
 /**
- * @author lijk@.infosec.com.cn
+ * @author lijk@infosec.com.cn
  * @version 0.0.1
  * @date 2016-10-12 13:41:51
  */
@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <ctype.h>
+#include <strings.h>
 #include <syslog.h>
 
 enum log_level
@@ -25,9 +25,9 @@ enum log_level
 
 extern enum log_level _log_level;
 
-#define _log_message(level, priority, format, ...)                                                              \
-do{                                                                                                             \
-    level > _log_level ? 0 : syslog(priority, #priority" [%s:%u] "format, __FILE__, __LINE__, ##__VA_ARGS__);   \
+#define _log_message(level, priority, format, ...)                                                                              \
+do{                                                                                                                             \
+    level > _log_level ? 0 : syslog(priority, #priority" [%s %s:%u] "format, __FUNCTION__, __FILE__, __LINE__, ##__VA_ARGS__);  \
 }while(0)
 
 void print_hex_dump(enum log_level level, const void *buf, size_t len);
